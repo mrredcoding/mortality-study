@@ -60,3 +60,11 @@ In each postgresql.conf, decomment the **port section** and change it to the fol
 	FOR CURRENT_USER
 	SERVER nodeSchema
 	OPTIONS (user 'mortality_schema_admin', password 'AzertySchema');
+
+### Create Schema in BDMen & BDWomen
+
+	CREATE SCHEMA foreign_schema_nodeSchema;
+	
+	IMPORT FOREIGN SCHEMA public
+	FROM SERVER nodeSchema
+	INTO foreign_schema_nodeSchema;
