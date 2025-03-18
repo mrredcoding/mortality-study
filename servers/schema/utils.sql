@@ -45,7 +45,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: Before update execute function
+-- Trigger: Before update execute function prevent_change_gender_age_value()
 CREATE TRIGGER check_change_gender_age
 BEFORE UPDATE ON mortality_rate
 FOR EACH ROW EXECUTE PROCEDURE prevent_change_gender_age_value();
