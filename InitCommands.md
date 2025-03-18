@@ -19,9 +19,9 @@ In each postgresql.conf, decomment the **port section** and change it to the fol
 
 ### Launch Servers
 
-    postgres -D /Users/gaoul/Desktop/ModuleBDR/BDSchema
-    postgres -D /Users/gaoul/Desktop/ModuleBDR/BDMen
-    postgres -D /Users/gaoul/Desktop/ModuleBDR/BDWomen
+    postgres -D <directory>/BDSchema
+    postgres -D <directory>/BDMen
+    postgres -D <directory>/BDWomen
 
 ### Connect to Servers
 
