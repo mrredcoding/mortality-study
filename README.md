@@ -8,13 +8,6 @@ The dataset consists of **two separate files**, one for men and one for women. E
 
 Each row in the dataset represents a **specific age**, ranging from **18 to 99 years**, leading to a total of **82 rows per file**. Since we maintain separate datasets for men and women, this results in an overall **164 rows** across both datasets. While this number may seem small, it encapsulates an extensive set of mortality insights derived from millions of real-world medical records.  
 
-Additionally, a **centralized source server (`source_server`)** stores the **merged dataset**, including:
-- The **SQL schema** defining the database structure.
-- The **data inserts** containing all mortality records.
-- Various **utilities** facilitating dataset maintenance and updates.
-
-This **source server** acts as the primary repository before data is distributed to gender-specific servers.  
-
 ### 2️⃣ Variables Definition  
 
 Each row in the dataset contains a set of variables that provide detailed mortality-related metrics, stratified by different levels of comorbidities:  
