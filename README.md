@@ -1,4 +1,4 @@
-# ✨ Mortality Study  
+# ☠️ Mortality Study  
 
 ## 📂 Data Description  
 
@@ -43,10 +43,10 @@ This study focuses on individuals who meet the following criteria:
 
 To assess the health status of individuals, we utilize the **Charlson Comorbidity Index (CCI)**, a widely recognized metric for evaluating comorbidities. Based on this index, individuals are classified into four distinct categories:
 
-- 🟢 **CCI = 0** → No comorbidity.
-- 🟡 **0 < CCI < 3** → Low comorbidity level.
-- 🟠 **3 ≤ CCI < 5** → Intermediate comorbidity level.
-- 🔴 **CCI ≥ 5** → High comorbidity level.
+- 🟢 **CCI = 0** → No comorbidity. (CCI0)
+- 🟡 **0 < CCI < 3** → Low comorbidity level. (CCI1)
+- 🟠 **3 ≤ CCI < 5** → Intermediate comorbidity level. (CCI2)
+- 🔴 **CCI ≥ 5** → High comorbidity level. (CCI3)
 
 Comorbidities are identified through multiple data sources, including:
 - **Hospital discharge diagnoses (ICD-10 coding).**
@@ -111,6 +111,35 @@ This segmentation enhances analytical depth by:
 ✔️ **More meaningful insights** via targeted and structured data organization.  
 
 This approach ensures **maximal efficiency, clarity, and depth** in mortality research. ✨  
+
+---
+
+## 🛠️ Keeping Our Data Clean  
+
+Maintaining **data integrity** is essential for ensuring **accurate and reliable** mortality estimates. We implement multiple safeguards to guarantee **consistency, transparency, and auditability** in our dataset.  
+
+### 1️⃣ **Change Tracking & Auditability**  
+To ensure full traceability, we maintain a **historical audit table** that records all modifications made to the main database. This enables us to:  
+- **Track changes over time**, ensuring full transparency.  
+- **Identify and rectify errors efficiently** by reviewing past modifications.  
+- **Prevent accidental or unauthorized alterations** to critical records.  
+
+This history ensures that our dataset remains **reliable, reproducible, and free from unintended inconsistencies**.  
+
+### 2️⃣ **Immutable Core Variables**  
+To prevent duplication and ensure consistency, two key demographic attributes—**age** and **gender**—are **immutable** after insertion. This means:  
+- **Age is set upon entry** and cannot be modified, ensuring stability in longitudinal analyses.  
+- **Gender remains fixed** from the moment of record creation, preventing reclassification errors.  
+
+By enforcing these restrictions, we eliminate data drift and maintain **cohort integrity** throughout the study.  
+
+### 3️⃣ **📌 Area for Improvement: Enhancing Automated Data Validation**  
+While we implement **basic validation mechanisms**, there is room for improvement in strengthening our **automated data validation and cleaning processes**. Future enhancements could include:  
+- **Advanced anomaly detection** using machine learning to identify irregular patterns.  
+- **More comprehensive cross-checking** with external health records to validate demographics.  
+- **Automated alert systems** for detecting duplicate or inconsistent entries.  
+
+By refining our **data validation pipeline**, we can further **improve accuracy, reduce manual interventions, and enhance data reliability**.  
 
 ---
 
@@ -208,7 +237,7 @@ Even with **identical age and comorbidity levels**, **men exhibit higher mortali
 
 ### 🔹 The "Aging Effect" of Comorbidities  
 
-- The survival probability of **a 40-year-old with CCI 3** is comparable to that of an **80-year-old with CCI 0**.  
+- The survival probability of **a 20-year-old with CCI 3** is comparable to that of an **80-year-old with CCI 0**.  
 - This suggests that **severe comorbidity burden accelerates aging effects**, effectively reducing an individual's survival chances to that of someone decades older with no chronic conditions.  
 
 ### 🔹 Gender-Based Differences in Survival Profiles  
