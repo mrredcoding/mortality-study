@@ -1,37 +1,54 @@
--- Function: Return Average Mortality Rate for a cci_level
-CREATE OR REPLACE FUNCTION get_avg_mortality_rate(cci_level INT)
-RETURNS TABLE(Average_Mortality_Rate FLOAT) AS $$
+-- Procedure get_avg_mortality_rate
+-- Retrieve Global Average Mortality Rate depending on the comorbidity
+CREATE OR REPLACE PROCEDURE get_avg_mortality_rate(
+    IN cci_level INT,
+    OUT average_mortality_rate FLOAT
+)
+LANGUAGE plpgsql AS $$
 BEGIN
-    RETURN QUERY EXECUTE format('SELECT AVG(CCI%s) FROM Mortality_Rate', cci_level);
+    EXECUTE format('SELECT AVG(CCI%s) FROM Mortality_Rate', cci_level)
+    INTO average_mortality_rate;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- Example:
-SELECT * FROM get_avg_mortality_rate(0)
+CALL get_avg_mortality_rate(0, NULL);
 
-
--- Function: Return Average Life Expentancy for a cci_level
-CREATE OR REPLACE FUNCTION get_avg_life_expectancy(cci_level INT)
-RETURNS TABLE(Average_Life_Expectancy FLOAT) AS $$
+-- Function get_avg_life_expectancy
+-- Retrieve Global Average Life Expentancy depending on the comorbidity
+CREATE OR REPLACE PROCEDURE get_avg_life_expectancy(
+    IN cci_level INT,
+    OUT average_life_expectancy FLOAT
+)
+LANGUAGE plpgsql AS $$
 BEGIN
-	RETURN QUERY EXECUTE FORMAT('SELECT AVG(EV_CCI%s) FROM Mortality_Rate', cci_level);
+    EXECUTE format('SELECT AVG(EV_CCI%s) FROM Mortality_Rate', cci_level)
+    INTO average_life_expectancy;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- Example:
-SELECT * FROM get_avg_life_expectancy(0)
+CALL get_avg_life_expectancy(0, NULL);
 
-
--- Function: Return Max Mortality Rate for a cci_level
-CREATE OR REPLACE FUNCTION get_max_mortality_rate(cci_level INT)
-RETURNS TABLE(Age INT, Mortality_Rate FLOAT) AS $$
+-- Function get_max_mortality_rate
+-- Retrieve Global Max Mortality Rate depending on the comorbidity
+CREATE OR REPLACE PROCEDURE get_max_mortality_rate(
+    IN cci_level INT,
+    OUT age INT,
+    OUT mortality_rate FLOAT
+)
+LANGUAGE plpgsql AS $$
 BEGIN
-    RETURN QUERY EXECUTE FORMAT('SELECT Age, CCI%s FROM Mortality_Rate ORDER BY CCI%s DESC LIMIT 1', cci_level, cci_level);
+    EXECUTE format(
+        'SELECT Age, CCI%s FROM Mortality_Rate ORDER BY CCI%s DESC LIMIT 1', 
+        cci_level, cci_level
+    )
+    INTO age, mortality_rate;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- Example:
-SELECT * FROM get_max_mortality_rate(0)
+CALL get_max_mortality_rate(0, NULL, NULL);
 
 -- Function: Raise an Exception if update on age or gender
 CREATE OR REPLACE FUNCTION prevent_change_gender_age_value()
