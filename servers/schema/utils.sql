@@ -14,7 +14,7 @@ $$;
 -- Example:
 CALL get_avg_mortality_rate(0, NULL);
 
--- Function get_avg_life_expectancy
+-- Procedure get_avg_life_expectancy
 -- Retrieve Global Average Life Expentancy depending on the comorbidity
 CREATE OR REPLACE PROCEDURE get_avg_life_expectancy(
     IN cci_level INT,
@@ -30,7 +30,7 @@ $$;
 -- Example:
 CALL get_avg_life_expectancy(0, NULL);
 
--- Function get_max_mortality_rate
+-- Procedure get_max_mortality_rate
 -- Retrieve Global Max Mortality Rate depending on the comorbidity
 CREATE OR REPLACE PROCEDURE get_max_mortality_rate(
     IN cci_level INT,
