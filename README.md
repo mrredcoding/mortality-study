@@ -1,63 +1,125 @@
-# Mortality Study  
-## Data Available in the EGB (October 2019) and Data Used
+# ✨ Mortality Study  
 
-## Description of Files
+## 📂 Data Description  
 
-Two files are available: one for **men** and one for **women**.
+### 1️⃣ Files Overview  
 
-| Variable         | Description                                               |
-|------------------|-----------------------------------------------------------|
-| **Age**          | Age in years                                              |
-| **CCI0**         | Mortality rate in the absence of comorbidity              |
-| **SxFict_FCCI0** | Survival order in the absence of comorbidity              |
-| **EV_CCI0**      | Life expectancy in the absence of comorbidity             |
-| **CCI1**         | Mortality rate with a low level of comorbidity            |
-| **SxFict_FCCI1** | Survival order with a low level of comorbidity            |
-| **EV_CCI1**      | Life expectancy with a low level of comorbidity           |
-| **CCI2**         | Mortality rate with an intermediate level of comorbidity  |
-| **SxFict_FCCI2** | Survival order with an intermediate level of comorbidity  |
-| **EV_CCI2**      | Life expectancy with an intermediate level of comorbidity |
-| **CCI3**         | Mortality rate with a high level of comorbidity           |
-| **SxFict_FCCI3** | Survival order with a high level of comorbidity           |
-| **EV_CCI3**      | Life expectancy with a high level of comorbidity          |
+The dataset consists of **two separate files**, one for men and one for women. Each file is structured to provide comprehensive mortality statistics categorized by **age** and **comorbidity level**.  
+
+Each row in the dataset represents a **specific age**, ranging from **18 to 99 years**, leading to a total of **82 rows per file**. Since we maintain separate datasets for men and women, this results in an overall **164 rows** across both datasets. While this number may seem small, it encapsulates an extensive set of mortality insights derived from millions of real-world medical records.  
+
+Additionally, a **centralized source server (`source_server`)** stores the **merged dataset**, including:
+- The **SQL schema** defining the database structure.
+- The **data inserts** containing all mortality records.
+- Various **utilities** facilitating dataset maintenance and updates.
+
+This **source server** acts as the primary repository before data is distributed to gender-specific servers.  
+
+### 2️⃣ Variables Definition  
+
+Each row in the dataset contains a set of variables that provide detailed mortality-related metrics, stratified by different levels of comorbidities:  
+
+| Variable     | Description                                               |
+|--------------|-----------------------------------------------------------|
+| Age          | Age in years (18 to 99)                                   |
+| CCI0         | Mortality rate with no comorbidity                        |
+| SxFict_FCCI0 | Survival order with no comorbidity                        |
+| EV_CCI0      | Life expectancy with no comorbidity                       |
+| CCI1         | Mortality rate with a low level of comorbidity            |
+| SxFict_FCCI1 | Survival order with a low level of comorbidity            |
+| EV_CCI1      | Life expectancy with a low level of comorbidity           |
+| CCI2         | Mortality rate with an intermediate level of comorbidity  |
+| SxFict_FCCI2 | Survival order with an intermediate level of comorbidity  |
+| EV_CCI2      | Life expectancy with an intermediate level of comorbidity |
+| CCI3         | Mortality rate with a high level of comorbidity           |
+| SxFict_FCCI3 | Survival order with a high level of comorbidity           |
+| EV_CCI3      | Life expectancy with a high level of comorbidity          |
+
+These variables are consistently structured for both **men** and **women**, ensuring seamless comparative analyses across the two datasets.  
+
+### 3️⃣ Population and Study Period  
+
+The dataset is extracted from the **Échantillon Généraliste des Bénéficiaires (EGB)**, a comprehensive, representative sample derived from the **Système National des Données de Santé (SNDS)**. Although the dataset comprises only **164 aggregated rows**, it is based on the medical histories of **millions of individuals**, ensuring a **robust and reliable foundation** for mortality analysis.  
+
+This study focuses on individuals who meet the following criteria:
+- **Aged 18 or older** at the time of analysis.
+- **Residing in mainland France**, explicitly excluding Corsica and overseas territories.
+- **Included in mortality trends spanning 2011 to 2018**, offering a multi-year perspective on mortality evolution.
+
+### 4️⃣ Measuring Comorbidities  
+
+To assess the health status of individuals, we utilize the **Charlson Comorbidity Index (CCI)**, a widely recognized metric for evaluating comorbidities. Based on this index, individuals are classified into four distinct categories:
+
+- 🟢 **CCI = 0** → No comorbidity.
+- 🟡 **0 < CCI < 3** → Low comorbidity level.
+- 🟠 **3 ≤ CCI < 5** → Intermediate comorbidity level.
+- 🔴 **CCI ≥ 5** → High comorbidity level.
+
+Comorbidities are identified through multiple data sources, including:
+- **Hospital discharge diagnoses (ICD-10 coding).**
+- **Long-term illness classifications (ALD).**
+- **Prescription drug consumption patterns.**
+- **Records of specific medical procedures.**
+
+The comorbidity level is determined using a **12-month rolling window** methodology:
+- If the individual is deceased, their final **12 months of medical history** are analyzed.
+- If the individual was still alive in 2018, a **random reference date within that year** is selected to ensure unbiased assessment.  
 
 ---
 
-## Data Used
+## 🏗️ Why and How We Segmented the Data  
 
-- **Population**: Simplified General Sample of Beneficiaries (**EGBs**) - **SNDS**
-- **Criteria**:
-  - Individuals aged **18 years or older**
-  - Residing in **mainland France** (excluding Corsica and overseas territories)
-- **Study Period**: **2011–2018** (maximum available period)
+### 1️⃣ Why Was the Data Split?  
+
+Segmenting the dataset was a deliberate choice influenced by three crucial factors:
+
+- **Performance Optimization** 🚀: Reducing the dataset's operational size leads to **faster query execution** and **lower computational costs**.
+- **Analytical Precision** 🎯: Mortality patterns exhibit significant variations across **genders** and **age groups**. By separating the data, we **minimize biases** and enable more precise comparisons.
+- **Scalability and Maintainability** 📊: This structured approach ensures seamless integration of future **additional years**, **expanded comorbidity classifications**, and **finer-grained mortality factors**.  
+
+### 2️⃣ Centralized Source Server  
+
+Before splitting the dataset by gender, all data is initially stored on the **source server (`source_server`)**, which serves as the **primary data repository**. This server:
+- Houses the **full dataset**, containing merged records from men and women.
+- Stores the **SQL schema** defining tables, indexes, and relationships.
+- Contains **data insertion scripts** for reloading and updating the dataset.
+- Provides **utility functions** for maintaining and querying the mortality database.
+
+This **centralized storage approach** ensures that gender-based datasets remain synchronized and facilitates easy updates when additional data becomes available.  
+
+### 3️⃣ Gender-Based Data Distribution  
+
+To enhance processing efficiency and facilitate **independent gender-based analyses**, the dataset is stored across **two separate database servers**:
+
+- **Men’s data** is housed on `men_server`.
+- **Women’s data** is housed on `women_server`.
+
+Each database maintains an **identical structure**, allowing parallel processing, streamlined comparisons, and gender-specific mortality trend analysis.  
+
+### 4️⃣ Age-Based Data Organization for Granular Analysis  
+
+Beyond gender-based segmentation, the dataset is further structured to enable refined age-specific analyses. Mortality trends and life expectancy projections vary significantly across different age groups, necessitating more detailed breakdowns.  
+
+To achieve this, data is categorized into three primary **age brackets**:
+- **Young Adults (Below 41 years old)** → Capturing early adulthood mortality patterns.
+- **Middle-Aged Individuals (41 to 65 years old)** → Focusing on mid-life health dynamics.
+- **Elderly Population (Above 65 years old)** → Analyzing senior mortality risk factors.
+
+This segmentation enhances analytical depth by:
+- **Facilitating precise mortality rate calculations** tailored to each age group.
+- **Enabling targeted statistical assessments** to identify risk patterns more effectively.
+- **Accelerating data queries** by focusing on age-specific subsets rather than the entire dataset.  
+
+### 5️⃣ Summary of Data Segmentation Benefits  
+
+✔️ **Centralized data storage** with a structured source repository.  
+✔️ **Enhanced computational efficiency** through structured dataset partitioning.  
+✔️ **Higher accuracy** by isolating gender and age-based variations in mortality.  
+✔️ **More meaningful insights** via targeted and structured data organization.  
+
+This approach ensures **maximal efficiency, clarity, and depth** in mortality research. ✨  
 
 ---
-
-## Definition and Identification of Comorbidities
-
-### Measuring Comorbidities
-
-- **Charlson Comorbidity Index** (*Charlson, Pompei et al. 1987*)
-- **CCI score** categorized as:
-  - **CCI = 0** → *No comorbidity*
-  - **0 < CCI < 3** → *Low level*
-  - **3 ≤ CCI < 5** → *Intermediate level*
-  - **CCI ≥ 5** → *High level*
-
-### Identification in the EGBs
-
-- Hospital diagnoses and **ALD** (coded in **ICD-10**)
-- Specific medication consumption
-- Discriminant medical procedures
-- Published algorithm (*Quan, Li et al. 2011; Bannay, Chaignot et al. 2016*)
-
-For each year of the period, comorbidities were identified over a **12-month rolling window** before:
-- The **date of death** for deceased individuals
-- A **random date in 2018** for individuals alive and excluded in 2018
-
----
-
-🎯 **Objective**: Provide robust estimates of mortality based on levels of comorbidity.
 
 ## 🔎 Analysis and Visual Insights
 
@@ -86,7 +148,7 @@ In summary, the data suggest that preventing or reducing comorbidity can substan
 
 ---
 
-## 2️⃣ Simulated Life Expectancy Gains from Reducing Comorbidities
+### 2️⃣ Simulated Life Expectancy Gains from Reducing Comorbidities
 
 ![Life Expectancy Gain by Reducing Comorbidity Level](data/images/life_expectancy_gain.png)
 
